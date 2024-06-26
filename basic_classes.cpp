@@ -87,20 +87,20 @@ void SimpleTree::addLeaf(SimpleTree* leaf) {
 }
 
 SimpleTree *SimpleTree::addParentLeaf() {
-    SimpleTree* newTree = new SimpleTree();
+  SimpleTree* newTree = new SimpleTree();
 
   // └── newTree
-    newTree->parent = parent;
-    // when we have more than 1 leaf, we need to change it
-    if (parent && parent->leaves.size()) {
-      parent->leaves[parent->leaves.size() - 1] = newTree;
-    }
+  newTree->parent = parent;
+  // when we have more than 1 leaf, we need to change it
+  if (parent && parent->leaves.size()) {
+    parent->leaves[parent->leaves.size() - 1] = newTree;
+  }
 
-    // └── newTree
-    //            └── tree
-    newTree->addLeaf(this);
+  // └── newTree
+  //            └── tree
+  newTree->addLeaf(this);
 
-    return newTree;
+  return newTree;
 }
 
 void SimpleTree::print(
@@ -128,10 +128,14 @@ void SimpleTree::print(
 
 void SimpleTree::calc(SimpleTree *tree) {
   float res = 0;
+
+  // when we have nod with char value, it means that this node is operation
   if (tree->val.cval) {
+    // but in theory it might be empty, so we add a simple protection from it
     if (tree->leaves.size()) {
       auto iter = tree->leaves.begin();
-
+      
+      // we calc first digit in this expression
       calc(*iter);
       res = (*iter)->val.fval;
       ++iter;
@@ -139,6 +143,9 @@ void SimpleTree::calc(SimpleTree *tree) {
       for (;iter != tree->leaves.end(); ++iter) {
         calc(*iter);
 
+        // and start operation execution
+        // in fact, we have a binary tree, but, as there is a possibility 
+        // to add many leaves, we iterate through them all
         switch (tree->val.cval)
         {
         case '+':
@@ -153,6 +160,7 @@ void SimpleTree::calc(SimpleTree *tree) {
         case '/':
           res /= (*iter)->val.fval;
           break;
+        // brace means just a brace and nothing else
         case '(':
           break;
         default:
@@ -160,8 +168,11 @@ void SimpleTree::calc(SimpleTree *tree) {
           break;
         }
       }
+
+      // save calculated value to this operation node
       tree->val.fval = res;
     }
+    // in any case go back and do not cal value again
     return;
   }
 

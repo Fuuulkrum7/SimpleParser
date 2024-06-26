@@ -26,6 +26,7 @@ enum Symbol {
   ELEM = 14u,
   P_ELEM = 15u,
 
+  // Default
   UNDEFINED = 16u
 };
 
