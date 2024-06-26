@@ -58,7 +58,6 @@ int main(int argc, char **argv) {
       // when we need just to remove value from stack
       // used only for right bracket in fact
       if (countDepth.size() && countDepth.top() == toFind.top()) {
-        std::clog << "out -> " << *cur << " " << toFind.top() << std::endl;
         countDepth.pop();
       }
 
@@ -165,7 +164,7 @@ int main(int argc, char **argv) {
 
   SimpleTree::print(tree);
   SimpleTree::calc(tree);
-  std::cout << tree->val.fval << '\n';
+  std::cout << "The result is: " << tree->val.fval << '\n';
 
   if (argc == 1) {
     delete[] forValue;
